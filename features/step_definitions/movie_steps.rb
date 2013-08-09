@@ -11,13 +11,26 @@ Given /the following movies exist/ do |movies_table|
   #flunk "Unimplemented"
 end
 
+
+Then /I should see all movies sorted by (.*)/ do |order_by|
+  sorted_movies = Movie.order(order_by)
+  sorted_movies.each_cons(2) do |m1,m2|
+    step "Then I should see \"#{m1.title}\" before \"#{m2.title}\""
+  end
+end
+
 # Make sure that one string (regexp) occurs before or after another one
 #   on the same page
 
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
-  flunk "Unimplemented"
+  #flunk "Unimplemented"
+
+  #page.body (/#{e1}.*#{e2}/m)
+  bleri = (page.body =~ /#{e1}.*#{e2}/m)
+  bleri.should be_true
+
 end
 
 # Make it easier to express checking or unchecking several boxes at once
